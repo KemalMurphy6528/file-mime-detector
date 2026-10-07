@@ -29,3 +29,10 @@ The trade-off: this library only recognises formats whose magic numbers are unam
 `detectMime` returns `null` when nothing matches, **not** `application/octet-stream`. A plain-text file, an unknown binary format, and a truncated header all come back as `null`. If your caller needs a default MIME for uploads, apply that fallback yourself rather than expecting one here — collapsing "unknown" into a specific type loses information a downstream component may want.
 
 The MP3 check matches any MPEG audio frame sync (`0xFF` followed by `0xE0`–`0xFF`) or an `ID3` tag. This is intentionally permissive: frame sync is a 11-bit pattern, not a full MPEG header decode, so rare false positives on unrelated binary data are possible. The alternative — fully parsing MPEG frame headers — is out of scope for a magic-number library.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
