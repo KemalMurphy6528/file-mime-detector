@@ -1,6 +1,6 @@
 {
   "name": "file-mime-detector",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Determines MIME type by reading magic number bytes from file headers with a built-in signature database.",
   "type": "module",
   "main": "src/index.js",
